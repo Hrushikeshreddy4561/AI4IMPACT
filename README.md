@@ -1,6 +1,6 @@
 # AI for Impact (AI4IMPACT)
 
-Welcome to the **AI for Impact** repository. This collection contains two distinct AI-driven applications designed to showcase the power of modern machine learning and LLM integrations.
+Welcome to the **AI for Impact** repo. This collection contains two distinct AI-driven applications designed to showcase the power of modern machine learning and LLM integrations.
 
 ## 🚀 Projects Included
 
@@ -28,5 +28,3 @@ cd ai-image-classifier
 cd llm-chatbot
 ```
 
-## 📜 License
-This repository is for educational and workshop purposes under the AI4IMPACT initiative.
