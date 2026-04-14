@@ -1,6 +1,6 @@
 # AI for Impact (AI4IMPACT)
 
-Welcome to the **AI for Impact** repo. This collection contains two distinct AI-driven applications designed to showcase the power of modern machine learning and LLM integrations.
+welcome to our AI4IMAPCT here are demo projects that are made for the workshop demos 
 
 ## 🚀 Projects Included
 
