@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Image Classifier — Powered by Google ViT</title>
+    <meta name="description" content="Upload any image and let Google's Vision Transformer (ViT) AI model identify what's inside it. Built with the Hugging Face open-source AI ecosystem." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+    <!-- ─── Animated Background ─── -->
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+
+    <!-- ─── Main Container ─── -->
+    <div class="container">
+
+        <!-- ─── Header ─── -->
+        <header class="header" id="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1>AI Image Classifier</h1>
+                    <p class="subtitle">Powered by Google ViT &middot; Hugging Face</p>
+                </div>
+            </div>
+            <a href="https://huggingface.co/google/vit-base-patch16-224" target="_blank" class="model-badge" id="model-badge">
+                <span class="badge-dot"></span>
+                google/vit-base-patch16-224
+            </a>
+        </header>
+
+        <!-- ─── Main Content ─── -->
+        <main class="main">
+            <!-- Upload Section -->
+            <section class="card upload-section" id="upload-section">
+                <div class="card-header">
+                    <div class="card-icon upload-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Upload an Image</h2>
+                        <p>Drag &amp; drop or click to select — JPG, PNG, WEBP supported</p>
+                    </div>
+                </div>
+
+                <div class="dropzone" id="dropzone">
+                    <input type="file" id="imgInput" accept="image/*" hidden />
+                    <div class="dropzone-content" id="dropzone-content">
+                        <div class="dropzone-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                        </div>
+                        <p class="dropzone-text">Drop your image here</p>
+                        <p class="dropzone-subtext">or <span class="browse-link">browse files</span></p>
+                        <p class="dropzone-hint">Maximum file size: 10 MB</p>
+                    </div>
+                    <div class="preview-container" id="preview-container" style="display: none;">
+                        <img id="preview-img" alt="Image preview" />
+                        <button class="remove-btn" id="remove-btn" title="Remove image">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button class="classify-btn" id="classify-btn" disabled>
+                    <span class="btn-text">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        Classify Image
+                    </span>
+                    <span class="btn-loader" style="display: none;">
+                        <span class="spinner"></span>
+                        Analyzing...
+                    </span>
+                </button>
+            </section>
+
+            <!-- Results Section -->
+            <section class="card results-section" id="results-section" style="display: none;">
+                <div class="card-header">
+                    <div class="card-icon results-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>Classification Results</h2>
+                        <p id="results-subtitle">Top predictions from the ViT model</p>
+                    </div>
+                </div>
+
+                <div class="results-list" id="results-list">
+                    <!-- Results injected by JS -->
+                </div>
+            </section>
+
+            <!-- Error Section -->
+            <section class="card error-section" id="error-section" style="display: none;">
+                <div class="error-content">
+                    <div class="error-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                    </div>
+                    <p id="error-message">Something went wrong.</p>
+                    <button class="retry-btn" id="retry-btn">Try Again</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- ─── Info Section ─── -->
+        <section class="info-grid" id="info-section">
+            <div class="info-card">
+                <div class="info-icon info-icon-model">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                </div>
+                <h3>Vision Transformer (ViT)</h3>
+                <p>Google's ViT model splits images into 16×16 pixel patches and uses a Transformer architecture — the same technology behind GPT — to classify images into 1000 categories.</p>
+            </div>
+            <div class="info-card">
+                <div class="info-icon info-icon-api">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                </div>
+                <h3>Hugging Face API</h3>
+                <p>We use the free Hugging Face Inference API to run the model. No GPU needed — just send an HTTP request with your image and get back predictions with confidence scores.</p>
+            </div>
+            <div class="info-card">
+                <div class="info-icon info-icon-flow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 18 22 12 16 6"/>
+                        <polyline points="8 6 2 12 8 18"/>
+                    </svg>
+                </div>
+                <h3>How It Works</h3>
+                <p>Upload → Frontend sends image to Python backend → Backend forwards to Hugging Face API → ViT model analyses → Results returned → Displayed with confidence scores.</p>
+            </div>
+        </section>
+
+        <!-- ─── Footer ─── -->
+        <footer class="footer">
+            <p>Built with ❤️ using <a href="https://huggingface.co" target="_blank">Hugging Face</a> &middot; Open-Source AI Ecosystem</p>
+            <p class="footer-sub">Mini Project — The Open-Source AI Ecosystem</p>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

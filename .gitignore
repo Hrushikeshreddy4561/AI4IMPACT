@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/
+__pycache__/
+*.py[cod]
+*$py.class
+dist/
+build/
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.py
+venv/
+ENV/
+env/
+
+# IDEs and OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+~$*
+
+# Project specific
+ai-image-classifier/dist/
+ai-image-classifier/.env
+llm-chatbot/.next/
+llm-chatbot/.env.local
